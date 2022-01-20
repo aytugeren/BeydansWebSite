@@ -1,0 +1,56 @@
+﻿@model List<BeydansWebSite.Models.ActivitiesModel>
+
+@{ 
+    int delaySecond = 4;
+}
+
+<!-- CONTACT SECTION -->
+<section id="contact" class="parallax-section">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 col-sm-12">
+                <!-- SECTION TITLE -->
+                <div class="wow fadeInUp section-title" data-wow-delay="0.2s">
+                    <h2>Etkinliklerimiz</h2>
+                    <p>Dünyanın dört bir yanında çeşitli etkinliklere katılarak dereceler kazanıyoruz. Güncel katılacağımız etkinliklerimizi sizlerle paylaşıyoruz.</p>
+                </div>
+            </div>
+
+            @foreach (var item in Model)
+            {
+                if (item.ActivitiesPictureOrBrochure.Contains("mp4"))
+                {
+                    <div class="wow fadeInUp col-md-3 col-sm-6" data-wow-delay="@string.Format("{0}{1}{2}","0.",delaySecond,"s")">
+                        <!-- WORK THUMB -->
+                        <div class="work-thumb">
+                            <a href="@item.ActivitiesPictureOrBrochure" id="activitiesImage">
+                                <video src="@item.ActivitiesPictureOrBrochure" id="activitiesImage" alt="Fine Arts"></video>
+                            </a>
+                        </div>
+                        <h4>@Html.Raw(item.ActivitiesName)</h4>
+                        <h6><p>@Html.Raw(item.ActivitiesDescription)</p></h6>
+                    </div>
+                }
+                else
+                {
+                    <div class="wow fadeInUp col-md-3 col-sm-6" data-wow-delay="@string.Format("{0}{1}{2}","0.",delaySecond,"s")">
+                        <!-- WORK THUMB -->
+                        <div class="work-thumb">
+                            <a href="@item.ActivitiesPictureOrBrochure" id="activitiesImage" class="image-popup">
+                                <img src="@item.ActivitiesPictureOrBrochure" id="activitiesImage" class="img-responsive" alt="Fine Arts">
+                            </a>
+                        </div>
+                        <h4>@Html.Raw(item.ActivitiesName)</h4>
+                        <h6><p>@Html.Raw(item.ActivitiesDescription)</p></h6>
+                    </div>
+                }
+
+                if (delaySecond < 10)
+                {
+                    delaySecond = delaySecond + 2;
+                }
+            }
+        </div>
+    </div>
+</section>

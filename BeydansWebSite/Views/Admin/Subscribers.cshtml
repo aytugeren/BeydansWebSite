@@ -1,0 +1,116 @@
+﻿@model List<BeydansWebSite.Models.CustomerModel>
+@{
+    ViewBag.Title = "Subscribers";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var count = 1;
+}
+<div class="alert-message"> </div>
+
+<div class="card">
+    <div class="row">
+        <div class="card-header col-10">
+            <h3 class="card-title">Müşterileri İnceleme</h3>
+        </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Müşteri İsim/Soyisim</th>
+                    <th>Müşteri Email</th>
+                    <th>Müşteri Mesaj</th>
+                    <th>Müşteriyle İletişime Geçildi mi?</th>
+                    <th>Mesajı Oluşturma Tarihi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><b>@count</b></td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.CustomerEmail</td>
+                        <td>
+                            @{
+                                if (string.IsNullOrEmpty(item.CustomerMessage))
+                                {
+                                    <div>Mesaj yok!</div>
+                                }
+                                else
+                                {
+                                    if (item.CustomerMessage.Length > 50 || item.CustomerMessage.Contains("<p>&nbsp;</p>"))
+                                    {
+                                        var index = item.CustomerMessage.IndexOf("<p>&nbsp;</p>");
+                                        if (index == -1 || index > 50)
+                                        {
+                                            <p>@Html.Raw(item.CustomerMessage.Substring(0, 50))...</p>
+                                        }
+                                        else
+                                        {
+                                            <p>@Html.Raw(item.CustomerMessage.Substring(0, item.CustomerMessage.Substring(0, index).LastIndexOf(" ")))...</p>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <p>@Html.Raw(item.CustomerMessage)</p>
+                                    }
+                                }
+                            }
+                        </td>
+                        <td>
+                            @if (item.IsActive == true || item.IsDeleted == false)
+                            {
+                                <span class="btn btn-warning">İletişime Geçilmedi!</span>
+                            }
+                            else
+                            {
+                                <span class="btn btn-success">İletişime Geçildi!</span>
+                            }
+                        </td>
+                        <td>
+                            @item.CreatedDateTime.ToString("dd.MMMM.yyyy")
+                        </td>
+                        <td><span class="btn btn-success" data-toggle="modal" onclick="getPasiveCustomer(@count)">İletişim durumunu değiştir.</span></td>
+                        <input type="hidden" id="id-@count" value=@item.Id />
+                    </tr>
+                    count = count + 1;
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+<!-- /.card -->
+
+<script src="https://cdn.tiny.cloud/1/wtyf0e1b3djvhhl2xgtmq7igwodf7eg35q33x6ndkgkzb7ia/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '.AwardDescription',
+        menubar: false
+    });
+</script>
+<script type="text/javascript">
+    function getPasiveCustomer(counter) {
+        var id = $('#id-' + counter).val();
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/GetPassiveCustomer/' + id,
+            contentType: "application/json; char=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result == 1) {
+                    window.location.reload();
+                }
+                else {
+                    var htmlAlert = '<div class="alert-danger"><h3>Silme İşlemi Başarısız!!</h3></div>';
+                    $(".alert-message").prepend(htmlAlert);
+                    $(".alert-message .alert").first().hide().fadeIn(200).delay(2000).fadeOut(1000, function () { $(this).remove(); });
+                }
+            }
+        })
+    }
+
+
+</script>

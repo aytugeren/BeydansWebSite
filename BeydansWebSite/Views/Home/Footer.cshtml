@@ -1,0 +1,65 @@
+﻿<footer id="footer" class="parallax-section">
+    <div class="container">
+        <div class="row">
+                
+            @Html.Action("FooterAbout","Home")
+
+            <div class="wow fadeInUp col-md-4 col-sm-4" data-wow-delay="0.4s">
+                <div class="support-cus">
+                    <h4>Adres</h4>
+                    <p>Kamiloba/Büyükçekmece</p>
+                </div>
+                <div class="support-cus">
+                    <h4>İletişim Adresimiz</h4>
+                    <p><a href="beydans2015@gmail.com">beydans2015@gmail.com</a></p>
+                    <p>Tel: 0533 376 51 91</p>
+                </div>
+            </div>
+
+            <div class="wow fadeInUp col-md-4 col-sm-4" data-wow-delay="0.6s">
+                <h4>Bültenimizi Takip Edin..</h4>
+                <div class="newsletter">
+                    <input name="CustomerEmailSubscriber" type="email" class="form-control" id="email" placeholder="Mail Adresiniz">
+                    <button name="submit" class='form-control' onclick="beSubscriber()">Kayıt Ol</button>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-sm-12 clearfix">
+                <div class="dash-line"></div>
+            </div>
+
+            <div class="wow fadeInUp col-md-6 col-sm-6" data-wow-delay="0.8s">
+                <p class="copyright-text">
+                    Copyright © @DateTime.Now.ToString("yyyy") Eren Software Company : <a rel="nofollow" title="HTML Templates">Aytuğ EREN</a>
+                </p>
+            </div>
+
+            <div class="wow fadeInUp col-md-6 col-sm-6" data-wow-delay="1s">
+                <ul class="social-icon">
+                    <li><a href="https://www.facebook.com/Beydans/" class="fa fa-facebook"></a></li>
+                    <li><a href="https://www.youtube.com/channel/UC4Vf-lE6rusuEDDjEToxkWQ" class="fa fa-youtube"></a></li>
+                    <li><a href="https://www.instagram.com/beydansgsk/" class="fa fa-instagram"></a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</footer>
+
+<script type="text/javascript">
+    function beSubscriber() {
+        var customer = new Object();
+        customer.CustomerEmail = document.getElementById("email").value;
+
+        $.ajax({
+            type: 'POST',
+            url: '/Home/FooterSubscriber',
+            contentType: "application/json; char=utf-8",
+            data: JSON.stringify(customer),
+            dataType: "json",
+            success: function (result) {
+                location.reload();
+            }
+        })
+    }
+</script>

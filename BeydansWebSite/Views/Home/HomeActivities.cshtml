@@ -1,0 +1,39 @@
+﻿@model List<BeydansWebSite.Models.AwardModel> 
+
+@{ 
+    int delaySecond = 4;
+}
+
+<section id="work" class="parallax-section">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 col-sm-12">
+                <!-- SECTION TITLE -->
+                <div class="wow fadeInUp section-title" data-wow-delay="0.2s">
+                    <h2>Ödüllerimiz</h2>
+                    <p>Dünyanın dört bir yanında çeşitli etkinliklere katılarak dereceler kazanıyoruz ve bunları sizlere burada gururla sergiliyoruz.</p>
+                </div>
+            </div>
+
+            @foreach (var item in Model)
+            {
+                <div class="wow fadeInUp col-md-3 col-sm-6" data-wow-delay="@string.Format("{0}{1}{2}","0.",delaySecond,"s")">
+                    <!-- WORK THUMB -->
+                    <div class="work-thumb">
+                        <a href="@item.AwardPicture" id="activitiesImage" class="image-popup">
+                            <img src="@item.AwardPicture" id="activitiesImage" class="img-responsive" alt="Fine Arts">
+                        </a>
+                    </div>
+                    <h4>@Html.Raw(item.AwardName)</h4>
+                    <h6><p>@Html.Raw(item.AwardDescription)</p></h6>
+                </div>
+
+                if (delaySecond < 10)
+                {
+                    delaySecond = delaySecond + 2;
+                }
+            }
+        </div>
+    </div>
+</section>

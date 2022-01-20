@@ -1,0 +1,54 @@
+﻿@model List<BeydansWebSite.Models.PropertyModel>
+@{
+    ViewBag.Title = "AddPropertyForWebsite";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var count = 0;
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">DataTable with minimal features & hover style</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example2" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Rendering engine</th>
+                    <th>Browser</th>
+                    <th>Ekle</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>@item.PropertyName</td>
+                    <td>@item.PropertyDescription</td>
+                    <td><button type="button" class="btn btn-success" value="@item.Id" onclick="addList(@count)" />Özellik için Mail At</td>
+                    <input type="hidden" id="id-@count" value=@item.Id />
+                </tr>
+                    count = count + 1;
+
+                }
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+<!-- /.card -->
+
+<script type="text/javascript">
+    function addList(count) {
+        var id = $('#id-' + count).val();
+        console.log(id);
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/SendMail/' + id,
+            contentType: "application/json; char=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+            }
+        })
+
+    }
+</script>

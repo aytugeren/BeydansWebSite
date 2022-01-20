@@ -1,0 +1,10 @@
+﻿<div class="wow fadeInUp col-md-4 col-sm-4" data-wow-delay="0.6s">
+    <h4>Newsletter</h4>
+    @using (Html.BeginForm("FooterSubscriber", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <form class="newsletter" action="#" method="get">
+            <input name="CustomerEmail" type="email" class="form-control" id="email" placeholder="Email Adresiniz">
+            <button id="submit" type="submit" class="form-control" value="send-mail" name="submit">Kayıt Ol</button>
+        </form>
+    }
+</div>
